@@ -1,52 +1,89 @@
 # DeepVision Crowd Monitor
 
-**Status: research prototype / implementation scaffold — not a validated real-time surveillance system.**
+### Crowd Density Estimation and Overcrowding Detection using Deep Learning
 
-DeepVision explores crowd density estimation and threshold-based overcrowding alerts. This repository reconstructs an **image inference demo** from the three-page project specification; it is **not a recovery of original trained code or weights**.
+DeepVision is a computer vision project focused on estimating the number of people in crowded scenes using density maps. The idea is to explore how deep learning could help monitor busy public spaces and identify situations where crowd levels exceed a defined threshold.
 
-## What is implemented
+I started working on this problem because traditional object detection can struggle in densely packed scenes, especially when people overlap or appear very small in the image.
 
-- CSRNet-style PyTorch architecture with VGG16 frontend and dilated convolution backend
-- Load a *compatible, trusted* trained checkpoint (`.pth`/`.pt`)
-- Estimate count as sum of the predicted density map (only meaningful with correctly trained weights)
-- Visualize density heatmap and configurable count threshold alert
-- Streamlit image-upload interface
+## What the Project Does
 
-## Planned / not yet implemented
+The current implementation includes:
 
-- Training pipeline and ShanghaiTech dataset loaders
-- Validated MAE/RMSE evaluation and measured accuracy
-- Live CCTV/video frame processing and real-time performance benchmarks
-- Zone-level density alerts, SMTP/Twilio, Docker, CUDA benchmarking
+- A CSRNet-style neural network built with PyTorch
+- Image preprocessing and density-map inference
+- Estimated crowd counts from predicted density maps
+- A configurable threshold for overcrowding alerts
+- A simple Streamlit interface for uploading and analyzing images
 
-These are proposed milestones in the project PDF, not features to claim as finished.
+**Note:** Crowd-count predictions require compatible trained model weights. This repository currently provides the model architecture and inference code, not a trained checkpoint.
 
-## Quick start (Windows PowerShell)
+## How It Works
 
-```powershell
-py -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe -m streamlit run app.py
+1. An image is uploaded through the Streamlit interface.
+2. The image is prepared for model inference.
+3. A CSRNet-style network generates a density map.
+4. The predicted density values are summed to estimate crowd count.
+5. The estimated count is compared against a user-defined threshold.
+6. The interface displays the density visualization and alert status.
+
+## Technologies Used
+
+| Technology | Purpose |
+|---|---|
+| Python | Core development |
+| PyTorch | Neural network architecture and inference |
+| CSRNet | Crowd density estimation |
+| OpenCV | Computer vision utilities |
+| NumPy | Numerical processing |
+| Streamlit | User interface |
+
+## Running the Project
+
+Clone the repository:
+
+```bash
+git clone https://github.com/DevCodesAI/DeepVision-Crowd-Monitor.git
+cd DeepVision-Crowd-Monitor
 ```
 
-You need a trained CSRNet checkpoint whose architecture and target density normalization match this implementation. Without one, the app shows an explicit warning and does not generate fake crowd counts. Checkpoints should come from trusted sources.
+Install dependencies:
 
-## Project pipeline
+```bash
+pip install -r requirements.txt
+```
 
-`Camera/video (planned) → frame extraction (planned) → preprocessing → CSRNet density map → sum density → count threshold → heatmap / alert`
+Start the application:
 
-## Dataset
+```bash
+streamlit run app.py
+```
 
-ShanghaiTech Crowd Counting Dataset is mentioned in the source project specification. The dataset is **not included** here. Check dataset licensing and usage conditions before obtaining it.
+A compatible trained CSRNet checkpoint is required to generate meaningful crowd estimates.
 
-## Limitations and safety
+## Dataset and Evaluation
 
-This is not appropriate for operational public-safety decisions. Camera angle, scale, domain shift, occlusion, and model calibration can substantially affect estimates. Density sum is not a calibrated people count unless the checkpoint was trained with count-preserving density targets.
+The project design uses the ShanghaiTech Crowd Counting Dataset as a proposed training and evaluation dataset.
 
-## Origin
+The current repository does not include the dataset, trained model weights or verified accuracy metrics.
 
-Reconstructed from *DeepVision Crowd Monitor: AI for Density Estimation and Overcrowding Detection*, a three-page project plan supplied by the project author. No training results or deployed-system claims are asserted.
+## What I'm Working on Next
+
+- Preparing a training pipeline for ShanghaiTech
+- Evaluating crowd-count predictions using MAE and RMSE
+- Adding video input support
+- Improving overcrowding detection for individual regions
+- Testing inference performance on different hardware
+
+## About the Project
+
+DeepVision began as an AI/ML project exploring crowd density estimation and its potential applications in public-space monitoring.
+
+This repository contains a starter implementation developed from the project specification. It is still under development and is not intended for real-world safety-critical monitoring.
 
 ## Author
 
-Dev Rai — B.Tech, Artificial Intelligence & Machine Learning
+**Dev Rai**  
+B.Tech — Artificial Intelligence and Machine Learning
+
+GitHub: https://github.com/DevCodesAI
