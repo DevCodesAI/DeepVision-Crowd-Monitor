@@ -1,0 +1,7 @@
+streamlit>=1.35,<2
+numpy>=1.26,<3
+pillow>=10,<13
+opencv-python-headless>=4.8,<5
+torch>=2.2,<3
+torchvision>=0.17,<1
+pytest>=8,<10
